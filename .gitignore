@@ -185,5 +185,5 @@ buildNumber.properties
 !/.mvn/wrapper/maven-wrapper.jar
 
 rebel.xml
-.idea/
 test/
+.idea/
