@@ -32,12 +32,12 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">招标类别名称:</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">名称:</td>
 								<td><input type="text" name="TENDER_TYPE_NAME" id="TENDER_TYPE_NAME" value="${pd.TENDER_TYPE_NAME}" maxlength="255" placeholder="这里输入招标类别名称" title="招标类别名称" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">代码:</td>
-								<td><input type="number" name="ITEM_NUMBER" id="ITEM_NUMBER" value="${pd.ITEM_NUMBER}" maxlength="32" placeholder="这里输入代码" title="代码" style="width:98%;"/></td>
+								<td><input type="text" name="ITEM_NUMBER" id="ITEM_NUMBER" value="${pd.ITEM_NUMBER}" maxlength="32" placeholder="这里输入代码" title="代码" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">

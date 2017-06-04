@@ -48,7 +48,7 @@ public interface DepartmentManager{
 	 * @param pd
 	 * @throws Exception
 	 */
-	public PageData findByBianma(PageData pd)throws Exception;
+	public PageData findByItemNumber(PageData pd)throws Exception;
 	
 	/**
 	 * 通过ID获取其子级列表
@@ -80,6 +80,14 @@ public interface DepartmentManager{
 	 * @throws Exception
 	 */
 	public String getDEPARTMENT_IDS(String DEPARTMENT_ID) throws Exception;
+
+    /**
+     * 获取所有部门信息.(无筛选条件)
+     * @param pd
+     * @return
+     * @throws Exception
+     */
+	public List<Department> listAllDepartmentWithoutFilter(PageData pd) throws Exception;
 	
 }
 

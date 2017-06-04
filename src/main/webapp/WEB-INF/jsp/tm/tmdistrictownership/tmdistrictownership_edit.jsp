@@ -32,12 +32,12 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">归属区域/运营商名称:</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">名称:</td>
 								<td><input type="text" name="TMDISTRICTOWNERSHIPNAME" id="TMDISTRICTOWNERSHIPNAME" value="${pd.TMDISTRICTOWNERSHIPNAME}" maxlength="255" placeholder="这里输入归属区域/运营商名称" title="归属区域/运营商名称" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">代码:</td>
-								<td><input type="number" name="ITEM_NUMBER" id="ITEM_NUMBER" value="${pd.ITEM_NUMBER}" maxlength="32" placeholder="这里输入代码" title="代码" style="width:98%;"/></td>
+								<td><input type="text" name="ITEM_NUMBER" id="ITEM_NUMBER" value="${pd.ITEM_NUMBER}" maxlength="32" placeholder="这里输入代码" title="代码" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">拼音:</td>

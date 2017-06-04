@@ -85,6 +85,17 @@ public class StaffService implements StaffManager{
 	public void userBinding(PageData pd)throws Exception{
 		dao.update("StaffMapper.userBinding", pd);
 	}
-	
+
+    /**
+     * 根据登录id获取员工信息
+     *
+     * @param pd
+     * @return
+     * @throws Exception
+     */
+    public PageData findByUserId(PageData pd) throws Exception {
+        return (PageData)dao.findForObject("StaffMapper.findByUserId", pd);
+    }
+
 }
 

@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.fh.entity.fhoa.Staff;
+import com.fh.service.fhoa.staff.impl.StaffService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -70,6 +72,8 @@ public class LoginController extends BaseController {
 	private FHlogManager FHLOG;
 	@Resource(name="loginimgService")
 	private LogInImgManager loginimgService;
+    @Resource(name="staffService")
+    private StaffService staffService;//员工信息service
 	
 	/**访问登录页
 	 * @return
@@ -126,7 +130,9 @@ public class LoginController extends BaseController {
 						user.setIP(pd.getString("IP"));
 						user.setSTATUS(pd.getString("STATUS"));
 						session.setAttribute(Const.SESSION_USER, user);			//把用户信息放session中
-						session.removeAttribute(Const.SESSION_SECURITY_CODE);	//清除登录验证码的session
+                        Staff staff = new Staff(staffService.findByUserId(pd));//当前员工信息
+                        session.setAttribute(Const.SESSION_STAFF, staff);//把员工信息放session中
+                        session.removeAttribute(Const.SESSION_SECURITY_CODE);	//清除登录验证码的session
 						//shiro加入身份验证
 						Subject subject = SecurityUtils.getSubject(); 
 					    UsernamePasswordToken token = new UsernamePasswordToken(USERNAME, PASSWORD); 
@@ -338,6 +344,7 @@ public class LoginController extends BaseController {
 		PageData pd = new PageData();
 		Session session = Jurisdiction.getSession();	//以下清除session缓存
 		session.removeAttribute(Const.SESSION_USER);
+        session.removeAttribute(Const.SESSION_STAFF);
 		session.removeAttribute(USERNAME + Const.SESSION_ROLE_RIGHTS);
 		session.removeAttribute(USERNAME + Const.SESSION_allmenuList);
 		session.removeAttribute(USERNAME + Const.SESSION_menuList);

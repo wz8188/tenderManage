@@ -36,12 +36,17 @@
 								<td><input type="text" name="PROJECT_LOCATION_NAME" id="PROJECT_LOCATION_NAME" value="${pd.PROJECT_LOCATION_NAME}" maxlength="255" placeholder="这里输入项目地点名称" title="项目地点名称" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">0:市级 1:省:</td>
-								<td><input type="number" name="IS_PROVINCE" id="IS_PROVINCE" value="${pd.IS_PROVINCE}" maxlength="32" placeholder="这里输入0:市级 1:省" title="0:市级 1:省" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">省/市</td>
+                                <td>
+                                    <input type="radio" name="IS_PROVINCE" id="IS_PROVINCE_0" value="0" <c:if test="${pd.IS_PROVINCE!=1}">checked</c:if>/>
+                                    <label for="IS_PROVINCE_0" style="width: 40%">市</label>
+                                    <input type="radio" name="IS_PROVINCE" id="IS_PROVINCE_1" value="1" <c:if test="${pd.IS_PROVINCE==1}">checked</c:if>/>
+                                    <label for="IS_PROVINCE_1" style="width: 40%">省</label>
+                                </td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">代码:</td>
-								<td><input type="number" name="ITEM_NUMBER" id="ITEM_NUMBER" value="${pd.ITEM_NUMBER}" maxlength="32" placeholder="这里输入代码" title="代码" style="width:98%;"/></td>
+								<td><input type="text" name="ITEM_NUMBER" id="ITEM_NUMBER" value="${pd.ITEM_NUMBER}" maxlength="32" placeholder="这里输入代码" title="代码" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">

@@ -49,7 +49,7 @@ public class TmDistrictOwnershipController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("TMDISTRICTOWNERSHIP_ID", this.get32UUID());	//主键
+		pd.put("TMDISTRICTOWNERSHIP_ID", null);	//主键
 		pd.put("CREATE_TIME", Tools.date2Str(new Date()));	//创建时间
 		tmdistrictownershipService.save(pd);
 		mv.addObject("msg","success");

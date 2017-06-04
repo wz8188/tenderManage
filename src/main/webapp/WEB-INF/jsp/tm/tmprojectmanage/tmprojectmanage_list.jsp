@@ -29,7 +29,7 @@
 				<div class="page-content">
 					<div class="row">
 						<div class="col-xs-12">
-							
+
 						<!-- 检索  -->
 						<form action="tmprojectmanage/list.do" method="post" name="Form" id="Form">
 						<table style="margin-top:5px;">
@@ -59,73 +59,91 @@
 							</tr>
 						</table>
 						<!-- 检索  -->
-					
-						<table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">	
+
+						<table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">
 							<thead>
 								<tr>
-									<th class="center" style="width:35px;">
-									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
-									</th>
-									<th class="center" style="width:50px;">序号</th>
-									<th class="center">项目编号</th>
-									<th class="center">项目名称</th>
+                                    <%--<th class="center" style="width:35px;">
+                                    <label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
+                                    </th>
+                                    <th class="center" style="width:50px;">序号</th>--%>
+									<th class="center">编号</th>
+									<th class="center">名称</th>
 									<th class="center">开标时间</th>
 									<th class="center">开标地点</th>
-									<th class="center">归属部门(自动获取当前业务人员的部门,不可选择别的部门)</th>
-									<th class="center">项目地点(省公司项目选择黑龙江省,分公司项目选择哈尔滨市)</th>
+									<th class="center">归属部门</th>
+									<th class="center">项目地点</th>
 									<th class="center">负责人</th>
 									<th class="center">归属区域</th>
-									<th class="center">中标服务费类别  0:预收 1:直收</th>
-									<th class="center">项目服务类别,逗号分隔</th>
+									<th class="center">服务费类别</th>
+									<th class="center">服务类别</th>
 									<th class="center">招标类别</th>
-									<th class="center">0:非国发合作项目 1:国发合作项目</th>
-									<th class="center">备注(如果遇到废标,就追加原因)</th>
-									<th class="center">状态 0:可归档 1:不可归档</th>
+									<th class="center">合作公司</th>
+									<%--<th class="center">备注</th>--%>
+									<%--<th class="center">归档状态</th>--%>
 									<th class="center">创建时间</th>
-									<th class="center">归档时间</th>
-									<th class="center">备案提醒起始日期</th>
-									<th class="center">是否还提醒备案 0:不提醒 1:提醒</th>
-									<th class="center">0:未抽取 1:已抽取</th>
+									<%--<th class="center">归档时间</th>--%>
+									<%--<th class="center">备案提醒起始日期</th>
+									<th class="center">是否提醒</th>--%>
+									<%--<th class="center">专家抽取</th>--%>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
-													
+
 							<tbody>
-							<!-- 开始循环 -->	
+							<!-- 开始循环 -->
 							<c:choose>
 								<c:when test="${not empty varList}">
 									<c:if test="${QX.cha == 1 }">
 									<c:forEach items="${varList}" var="var" varStatus="vs">
 										<tr>
-											<td class='center'>
+											<%--<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.TMPROJECTMANAGE_ID}" class="ace" /><span class="lbl"></span></label>
-											</td>
-											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.TM_PROJECT_NUMBER}</td>
+											</td>--%>
+											<%--<td class='center' style="width: 30px;">${vs.index+1}</td>--%>
+											<td class='center'>
+                                                <c:if test="${var.TM_PROJECT_NUMBER == null}">暂无</c:if>
+                                                <c:if test="${var.TM_PROJECT_NUMBER != null}">${var.TM_PROJECT_NUMBER}</c:if>
+                                            </td>
 											<td class='center'>${var.PROJECT_NAME}</td>
 											<td class='center'>${var.BID_OPENING_TIME}</td>
 											<td class='center'>${var.BID_OPENING_LOCATION}</td>
-											<td class='center'>${var.ATTRIBUTION_DEPARTMENT}</td>
-											<td class='center'>${var.PROJECT_LOCATION}</td>
-											<td class='center'>${var.PRINCIPAL}</td>
-											<td class='center'>${var.DISTRICT_OWNERSHIP}</td>
-											<td class='center'>${var.SERVICE_FEE_CATEGORY}</td>
+											<td class='center'>${var.departmentName}</td>
+											<td class='center'>${var.PROJECT_LOCATION_NAME}</td>
+											<td class='center'>${var.staffName}</td>
+											<td class='center'>${var.TMDISTRICTOWNERSHIPNAME}</td>
+											<td class='center'>
+                                                <c:if test="${var.SERVICE_FEE_CATEGORY == 0}">预收</c:if>
+                                                <c:if test="${var.SERVICE_FEE_CATEGORY == 1}">直收</c:if>
+                                            </td>
 											<td class='center'>${var.PROJECT_SERVICE_TYPES}</td>
-											<td class='center'>${var.TENDER_TYPE}</td>
-											<td class='center'>${var.IS_NATIONAL}</td>
-											<td class='center'>${var.COMMENT}</td>
-											<td class='center'>${var.IS_STATUS}</td>
+											<td class='center'>${var.TENDER_TYPE_NAME}</td>
+											<td class='center'>
+                                                <c:if test="${var.TMCOOPERATIONUNIT_ID ==null}">无</c:if>
+                                                <c:if test="${var.TMCOOPERATIONUNIT_ID !=null}">${var.COOPERATION_UNIT_NAME}/${var.INCOME_DISTRIBUTION}%</c:if>
+                                            </td>
+											<%--<td class='center'>${var.COMMENT}</td>--%>
+											<%--<td class='center'>${var.IS_STATUS}</td>--%>
 											<td class='center'>${var.CREATE_TIME}</td>
-											<td class='center'>${var.ARCHIVING_TIME}</td>
+											<%--<td class='center'>${var.ARCHIVING_TIME}</td>
 											<td class='center'>${var.RECORD_REMINDER_TIME}</td>
-											<td class='center'>${var.IS_RECORD_STATUS}</td>
-											<td class='center'>${var.IS_EXTRACT_EXPERT}</td>
+											<td class='center'>
+                                                <c:if test="${var.IS_RECORD_STATUS ==0}">不提醒</c:if>
+                                                <c:if test="${var.IS_RECORD_STATUS ==1}">提醒</c:if>
+                                            </td>--%>
+											<%--<td class='center'>
+                                                <c:if test="${var.IS_EXTRACT_EXPERT ==0}">未抽取</c:if>
+                                                <c:if test="${var.IS_EXTRACT_EXPERT ==1}">已抽取</c:if>
+                                            </td>--%>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${QX.edit == 1 }">
+                                                    <a class="btn btn-xs btn-warning" title="添加标段" onclick="addTenders('${var.TMPROJECTMANAGE_ID}');">
+                                                        <i class="ace-icon fa fa-align-justify bigger-120" title="管理标段"></i>
+                                                    </a>
 													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.TMPROJECTMANAGE_ID}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
@@ -141,9 +159,16 @@
 														<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
 															<i class="ace-icon fa fa-cog icon-only bigger-110"></i>
 														</button>
-			
+
 														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 															<c:if test="${QX.edit == 1 }">
+                                                            <li>
+                                                                <a style="cursor:pointer;" onclick="addTenders('${var.TMPROJECTMANAGE_ID}');" class="tooltip-success" data-rel="tooltip" title="管理标段">
+																<span class="yellow">
+																	<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																</span>
+                                                                </a>
+                                                            </li>
 															<li>
 																<a style="cursor:pointer;" onclick="edit('${var.TMPROJECTMANAGE_ID}');" class="tooltip-success" data-rel="tooltip" title="修改">
 																	<span class="green">
@@ -166,7 +191,7 @@
 												</div>
 											</td>
 										</tr>
-									
+
 									</c:forEach>
 									</c:if>
 									<c:if test="${QX.cha == 0 }">
@@ -199,7 +224,7 @@
 						</table>
 						</div>
 						</form>
-					
+
 						</div>
 						<!-- /.col -->
 					</div>
@@ -239,16 +264,16 @@
 			$("#Form").submit();
 		}
 		$(function() {
-		
+
 			//日期框
 			$('.date-picker').datepicker({
 				autoclose: true,
 				todayHighlight: true
 			});
-			
+
 			//下拉框
 			if(!ace.vars['touch']) {
-				$('.chosen-select').chosen({allow_single_deselect:true}); 
+				$('.chosen-select').chosen({allow_single_deselect:true});
 				$(window)
 				.off('resize.chosen')
 				.on('resize.chosen', function() {
@@ -271,8 +296,8 @@
 					 else $('#form-field-select-4').removeClass('tag-input-style');
 				});
 			}
-			
-			
+
+
 			//复选框全选控制
 			var active_class = 'active';
 			$('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
@@ -284,7 +309,7 @@
 				});
 			});
 		});
-		
+
 		//新增
 		function add(){
 			 top.jzts();
@@ -292,8 +317,8 @@
 			 diag.Drag=true;
 			 diag.Title ="新增";
 			 diag.URL = '<%=basePath%>tmprojectmanage/goAdd.do';
-			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.Width = 800;
+			 diag.Height = 620;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮
@@ -310,7 +335,7 @@
 			 };
 			 diag.show();
 		}
-		
+
 		//删除
 		function del(Id){
 			bootbox.confirm("确定要删除吗?", function(result) {
@@ -323,7 +348,7 @@
 				}
 			});
 		}
-		
+
 		//修改
 		function edit(Id){
 			 top.jzts();
@@ -331,11 +356,11 @@
 			 diag.Drag=true;
 			 diag.Title ="编辑";
 			 diag.URL = '<%=basePath%>tmprojectmanage/goEdit.do?TMPROJECTMANAGE_ID='+Id;
-			 diag.Width = 450;
-			 diag.Height = 355;
+             diag.Width = 800;
+             diag.Height = 620;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
-		     diag.ShowMinButton = true;		//最小化按钮 
+		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 nextPage(${page.currentPage});
@@ -344,7 +369,35 @@
 			 };
 			 diag.show();
 		}
-		
+
+
+        //新增
+        function addTenders(Id){
+            top.jzts();
+            var diag = new top.Dialog();
+            diag.Drag=true;
+            diag.Title ="管理标段";
+            diag.URL = '<%=basePath%>tmprojecttenders/goAdd.do?PROJECT_ID='+Id;
+            diag.Width = 800;
+            diag.Height = 620;
+            diag.Modal = true;				//有无遮罩窗口
+            diag. ShowMaxButton = true;	//最大化按钮
+            diag.ShowMinButton = true;		//最小化按钮
+            diag.CancelEvent = function(){ //关闭事件
+                if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                    if('${page.currentPage}' == '0'){
+                        top.jzts();
+                        setTimeout("self.location=self.location",100);
+                    }else{
+                        nextPage(${page.currentPage});
+                    }
+                }
+                diag.close();
+            };
+            diag.show();
+        }
+
+
 		//批量操作
 		function makeAll(msg){
 			bootbox.confirm(msg, function(result) {
@@ -359,7 +412,7 @@
 					if(str==''){
 						bootbox.dialog({
 							message: "<span class='bigger-110'>您没有选择任何内容!</span>",
-							buttons: 			
+							buttons:
 							{ "button":{ "label":"确定", "className":"btn-sm btn-success"}}
 						});
 						$("#zcheckbox").tips({
@@ -390,7 +443,7 @@
 				}
 			});
 		};
-		
+
 		//导出excel
 		function toExcel(){
 			window.location.href='<%=basePath%>tmprojectmanage/excel.do';

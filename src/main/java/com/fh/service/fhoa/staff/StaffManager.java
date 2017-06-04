@@ -59,6 +59,14 @@ public interface StaffManager{
 	 * @throws Exception
 	 */
 	public void userBinding(PageData pd)throws Exception;
+
+    /**
+     * 根据登录id获取员工信息
+     * @param pd
+     * @return
+     * @throws Exception
+     */
+	public PageData findByUserId(PageData pd) throws Exception;
 	
 }
 

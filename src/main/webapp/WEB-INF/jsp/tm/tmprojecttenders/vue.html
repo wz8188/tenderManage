@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../vue/vue-tutorials-master/styles/demo.css"/>
+</head>
+<body>
+<div id="app">
+    <time-counter></time-counter>
+    <fieldset>
+        <legend>
+            Create New Person
+        </legend>
+        <div class="form-group">
+            <label>Name:</label>
+            <input type="text" v-model="newPerson.name"/>
+        </div>
+        <div class="form-group">
+            <label>Age:</label>
+            <input type="text" v-model="newPerson.age"/>
+        </div>
+        <div class="form-group">
+            <label>Sex:</label>
+            <select v-model="newPerson.sex">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label></label>
+            <button @click="createPerson">Create</button>
+        </div>
+    </fieldset>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Sex</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="person in people">
+            <td>11</td>
+            <td>{{ person.age }}</td>
+            <td>{{ person.sex }}</td>
+            <td :class="'text-center'">
+                <button @click="deletePerson($index)">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script type="text/javascript" src="/home/hadoop/IdeaProjects/170522/tenderManage/src/main/webapp/WEB-INF/jsp/tm/tmprojecttenders/vue.html"></script>
+<script>
+
+    // 注册组件
+    Vue.component('time-counter', {
+        template: '<button  v-bind:style="styleObject">{{ hour }}</button>' +
+        '<button  v-bind:style="styleObject">{{ minute }}</button>' +
+        '<button  v-bind:style="styleObject">{{ second }}</button>' +
+        '<input type=\'hidden\' v-model=\'hour\' v-bind:style="styleObject"/>' +
+        '<input type=\'hidden\' v-model=\'minute\' v-bind:style="styleObject"/>' +
+        '<input type=\'hidden\' v-model=\'second\' v-bind:style="styleObject"/>',
+        create: function () {
+            setInterval(this.timer, 500);
+        },
+        data: function () {
+            return {
+                styleObject: {
+                    marginRight: '10px'
+                },
+            }
+        },
+        method: {
+            timer: function () {
+                var date = new Date();
+                console.log(1);
+            }
+        }
+
+    });
+
+    //我的vue 实例
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            newPerson: {
+                name: '',
+                age: 0,
+                sex: 'Male'
+            },
+            people: [],
+            hour: 1,
+            minute: 1,
+            second: 1,
+            life: 'created'
+        },
+        created: function () {
+            // `this` 指向 vm 实例
+            console.log("欢迎来到人员管理页面,现在的处于'" + this.life + "'阶段");
+        },
+        methods: {
+            createPerson: function () {
+                this.people.push(this.newPerson);
+                // 添加完newPerson对象后，重置newPerson对象
+                this.newPerson = {name: '', age: 0, sex: 'Male'}
+            },
+            deletePerson: function (index) {
+                // 删一个数组元素
+                this.people.splice(index, 1);
+            }
+        }
+    });
+</script>
+</html>

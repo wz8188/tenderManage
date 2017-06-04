@@ -84,6 +84,7 @@
 				-->
 				)
 		</if>
+        ORDER BY ITEM_NUMBER ASC
 	</select>
 	
 	<!-- 列表(全部) -->

@@ -67,7 +67,7 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">项目服务类型名称</th>
+									<th class="center">标段服务类型名称</th>
 									<th class="center">代码</th>
 									<th class="center">创建时间</th>
 									<th class="center">操作</th>

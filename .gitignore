@@ -187,3 +187,4 @@ buildNumber.properties
 rebel.xml
 test/
 .idea/
+src/main/webapp/WEB-INF/classes

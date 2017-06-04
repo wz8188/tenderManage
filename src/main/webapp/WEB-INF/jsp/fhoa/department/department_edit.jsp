@@ -48,7 +48,7 @@
 							</tr>
 							<tr>
 								<td style="width:70px;text-align: right;padding-top: 13px;">编码:</td>
-								<td><input type="text" name="BIANMA" id="BIANMA" value="${pd.BIANMA}" maxlength="32" placeholder="这里输入编码 (不重复, 禁止修改)" title="编码" style="width:76%;" onblur="hasBianma();" <c:if test="${null != pd.BIANMA}">readonly="readonly"</c:if>/></td>
+								<td><input type="text" name="ITEM_NUMBER" id="ITEM_NUMBER" value="${pd.ITEM_NUMBER}" maxlength="32" placeholder="这里输入编码 (不重复, 禁止修改)" title="编码" style="width:76%;" onblur="hasItemNumber();" <c:if test="${null != pd.ITEM_NUMBER}">readonly="readonly"</c:if>/></td>
 							</tr>
 							<tr>
 								<td style="width:70px;text-align: right;padding-top: 13px;">负责人:</td>
@@ -127,14 +127,14 @@
 				$("#NAME_EN").focus();
 			return false;
 		}
-			if($("#BIANMA").val()==""){
-				$("#BIANMA").tips({
+			if($("#ITEM_NUMBER").val()==""){
+				$("#ITEM_NUMBER").tips({
 					side:3,
 		            msg:'请输入编码',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#BIANMA").focus();
+				$("#ITEM_NUMBER").focus();
 			return false;
 		}
 			$("#Form").submit();
@@ -144,25 +144,25 @@
 		}
 		
 		//判断编码是否存在
-		function hasBianma(){
-			var BIANMA = $.trim($("#BIANMA").val());
-			if("" == BIANMA)return;
+		function hasItemNumber(){
+			var ITEM_NUMBER = $.trim($("#ITEM_NUMBER").val());
+			if("" == ITEM_NUMBER)return;
 			$.ajax({
 				type: "POST",
-				url: '<%=basePath%>department/hasBianma.do',
-		    	data: {BIANMA:BIANMA,tm:new Date().getTime()},
+				url: '<%=basePath%>department/hasItemNumber.do',
+		    	data: {ITEM_NUMBER:ITEM_NUMBER,tm:new Date().getTime()},
 				dataType:'json',
 				cache: false,
 				success: function(data){
 					 if("success" == data.result){
 					 }else{
-						$("#BIANMA").tips({
+						$("#ITEM_NUMBER").tips({
 							side:1,
-				            msg:'编码'+BIANMA+'已存在,重新输入',
+				            msg:'编码'+ITEM_NUMBER+'已存在,重新输入',
 				            bg:'#AE81FF',
 				            time:5
 				        });
-						$('#BIANMA').val('');
+						$('#ITEM_NUMBER').val('');
 					 }
 				}
 			});

@@ -68,7 +68,7 @@
 									</th>
 									<th class="center" style="width:50px;">序号</th>
 									<th class="center">项目地点名称</th>
-									<th class="center">0:市级 1:省</th>
+									<th class="center">省/市</th>
 									<th class="center">代码</th>
 									<th class="center">创建时间</th>
 									<th class="center">操作</th>
@@ -87,7 +87,10 @@
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${var.PROJECT_LOCATION_NAME}</td>
-											<td class='center'>${var.IS_PROVINCE}</td>
+											<td class='center'>
+                                                <c:if test="${var.IS_PROVINCE==0}">市</c:if>
+                                                <c:if test="${var.IS_PROVINCE==1}">省</c:if>
+                                            </td>
 											<td class='center'>${var.ITEM_NUMBER}</td>
 											<td class='center'>${var.CREATE_TIME}</td>
 											<td class="center">

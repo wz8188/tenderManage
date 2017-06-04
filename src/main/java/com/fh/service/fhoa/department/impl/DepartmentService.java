@@ -71,8 +71,8 @@ public class DepartmentService implements DepartmentManager{
 	 * @param pd
 	 * @throws Exception
 	 */
-	public PageData findByBianma(PageData pd)throws Exception{
-		return (PageData)dao.findForObject("DepartmentMapper.findByBianma", pd);
+	public PageData findByItemNumber(PageData pd)throws Exception{
+		return (PageData)dao.findForObject("DepartmentMapper.findByItemNumber", pd);
 	}
 	
 	/**
@@ -162,6 +162,18 @@ public class DepartmentService implements DepartmentManager{
 		sb.append("'fh')");
 		return sb.toString();
 	}
-	
+
+    /**
+     * 获取所有部门信息.(无筛选条件)
+     *
+     * @param pd
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<Department> listAllDepartmentWithoutFilter(PageData pd) throws Exception {
+        return (List<Department>) dao.findForList("DepartmentMapper.listAllDepartmentWithoutFilter", pd);
+    }
+
 }
 

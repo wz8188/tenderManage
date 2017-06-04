@@ -195,15 +195,15 @@ public class DepartmentController extends BaseController {
 	/**判断编码是否存在
 	 * @return
 	 */
-	@RequestMapping(value="/hasBianma")
+	@RequestMapping(value="/hasItemNumber")
 	@ResponseBody
-	public Object hasBianma(){
+	public Object hasItemNumber(){
 		Map<String,String> map = new HashMap<String,String>();
 		String errInfo = "success";
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
-			if(departmentService.findByBianma(pd) != null){
+			if(departmentService.findByItemNumber(pd) != null){
 				errInfo = "error";
 			}
 		} catch(Exception e){

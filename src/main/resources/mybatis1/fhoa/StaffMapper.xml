@@ -208,4 +208,13 @@
 	</update>
 	
 	<!-- fh313596790qq(青苔) -->
+
+    <select id="findByUserId" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        USER_ID = #{USER_ID}
+    </select>
 </mapper>
