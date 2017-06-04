@@ -116,4 +116,29 @@
         where PROJECT_ID = #{PROJECT_ID}
     </select>
 
+    <insert id="saveAll" parameterType="java.util.List">
+        insert into
+        <include refid="tableName"></include>
+        (
+        <include refid="Field"></include>
+        ) values
+        <foreach collection="list" item="map" separator=",">
+            (
+            #{map.PROJECT_ID},
+            #{map.PROJECT_TENDER_NAME},
+            #{map.QUOTES,jdbcType=VARCHAR},
+            #{map.SERVICE_TYPE},
+            #{map.TMPROJECTTENDERS_ID}
+            )
+        </foreach>
+
+    </insert>
+
+    <delete id="deleteAllByProjectId" parameterType="pd">
+        delete from
+        <include refid="tableName"></include>
+        where
+        PROJECT_ID = #{PROJECT_ID}
+    </delete>
+
 </mapper>

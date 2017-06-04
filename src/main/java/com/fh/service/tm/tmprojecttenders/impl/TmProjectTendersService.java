@@ -1,6 +1,7 @@
 package com.fh.service.tm.tmprojecttenders.impl;
 
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.fh.dao.DaoSupport;
@@ -90,5 +91,26 @@ public class TmProjectTendersService implements TmProjectTendersManager{
         return (List<PageData>)dao.findForList("TmProjectTendersMapper.findByProjectId", pd);
     }
 
+    /**
+     * 批量插入数据
+     *
+     * @param mapList
+     * @throws Exception
+     */
+    @Override
+    public void saveAll(List<Map<String, Object>> mapList) throws Exception {
+        dao.save("TmProjectTendersMapper.saveAll",mapList);
+    }
+
+    /**
+     * 根据项目id删除全部标段
+     *
+     * @param pd
+     * @throws Exception
+     */
+    @Override
+    public void deleteAllByProjectId(PageData pd) throws Exception {
+        dao.delete("TmProjectTendersMapper.deleteAllByProjectId",pd);
+    }
 }
 

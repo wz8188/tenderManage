@@ -41,7 +41,11 @@ public class PageData extends HashMap implements Map{
 //					 value += values[i] + ",";
 //				}
 //				value = value.substring(0, value.length()-1);
-                returnMap.put(name, (String[])valueObj);
+                if(((String[]) valueObj).length>1){
+                    returnMap.put(name, (String[])valueObj);
+                }else {
+                    returnMap.put(name, ((String[])valueObj)[0]);
+                }
             }else{
 //				value = valueObj.toString();
                 returnMap.put(name, valueObj.toString());
@@ -60,8 +64,9 @@ public class PageData extends HashMap implements Map{
 		Object obj = null;
 		if(map.get(key) instanceof Object[]) {
 			Object[] arr = (Object[])map.get(key);
-			obj = request == null ? arr:(request.getParameter((String)key) == null ? arr:arr[0]);
-		} else {
+			//obj = request == null ? arr:(request.getParameter((String)key) == null ? arr:arr[0]);
+            obj = request == null ? "":(request.getParameter((String)key) == null ? "":arr);
+        } else {
 			obj = map.get(key);
 		}
 		return obj;

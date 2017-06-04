@@ -41,25 +41,26 @@
 
                                     </thead>
                                     <tbody id="tbody">
-                                    <tr v-for="aRow in manyRows">
+                                    <tr v-for="aRow in manyRows" class="info-panel">
+                                        <input type="hidden" name="PROJECT_ID" id="PROJECT_ID_{{$index}}" value="${pd.PROJECT_ID}"/>
                                         <td>
                                             <select name="SERVICE_TYPE" id="SERVICE_TYPE_{{$index}}" title="标段服务类别"
-                                                    style="width:98%;" datatype="*" nullmsg="请选择标段服务类型">
-                                                <option value="">请选择服务类型</option>
+                                                    style="width:98%;" datatype="*" nullmsg="请选择标段服务类型" v-model="aRow.selected">
+                                                <option value="-1">请选择服务类型</option>
                                                 <c:forEach items="${projectServiceTypeList}" var="pst" varStatus="vs">
-                                                    <option value="${pst.TMPROJECTSERVICETYPE_ID}">${pst.PST_NAME}</option>
+                                                    <option value="${pst.TMPROJECTSERVICETYPE_ID}" >${pst.PST_NAME}</option>
                                                 </c:forEach>
                                             </select>
                                         </td>
                                         <td>
                                             <input type="text" name="PROJECT_TENDER_NAME"
-                                                   id="PROJECT_TENDER_NAME_{{$index}}" value="${pd.PROJECT_TENDER_NAME}"
+                                                   id="PROJECT_TENDER_NAME_{{$index}}" value="{{aRow.PROJECT_TENDER_NAME}}"
                                                    maxlength="255" placeholder="项目标段名称" title="项目标段名称"
                                                    style="width:98%;" datatype="*2-255" nullmsg="请输入项目标段名称"
                                                    errormsg="2-255字符之间"/>
                                         </td>
                                         <td>
-                                            <input type="text" name="QUOTES" id="QUOTES_{{$index}}" value="${pd.QUOTES}"
+                                            <input type="text" name="QUOTES" id="QUOTES_{{$index}}" value="{{aRow.QUOTES}}"
                                                    maxlength="32" placeholder="报价分上限" title="报价分上限" style="width:98%;"
                                                    datatype="float2" ignore="ignore"/>
                                         </td>
@@ -111,7 +112,6 @@
 <!--验证表单-->
 <script type="text/javascript" src="plugins/validform/Validform_v5.3.2.js"></script>
 <script type="text/javascript">
-
     $(top.hangge());
     /*//保存
     function save() {
@@ -191,14 +191,14 @@
 
     //异步提交表单
     function ajaxSubmitForm() {
-        var ajaxData =$("#Form").serialize();
+        var ajaxData =combineFormData();
         var url = $("#Form").attr('action');
         var method = $("#Form").attr('method');
-        console.log(ajaxData);
+        console.log({"ajaxData":ajaxData,"PROJECT_ID":$('#PROJECT_ID').val()});
         $.ajax({
             type: method,
             url: url,
-            data: ajaxData,
+            data: {"ajaxData":ajaxData,"PROJECT_ID":$('#PROJECT_ID').val()},
             dataType: "text",
             contentType: "application/x-www-form-urlencoded;charset=utf-8",
             success: function (data) {
@@ -226,8 +226,33 @@
     var vm = new Vue({
         el: '#tbody',
         data: {
-            aRow: {},
+            aRow: {
+                PROJECT_ID:'',
+                PROJECT_TENDER_NAME:'',
+                QUOTES:'',
+                SERVICE_TYPE:'',
+                selected:'-1'
+            },
             manyRows: [],
+            life:'created'
+        },
+        created:function () {
+            <c:forEach items="${tenders}" var="tender" varStatus="vs">
+            this.aRow.PROJECT_ID = '${tender.PROJECT_ID}';
+            this.aRow.PROJECT_TENDER_NAME = '${tender.PROJECT_TENDER_NAME}';
+            this.aRow.QUOTES = '${tender.QUOTES}';
+            this.aRow.SERVICE_TYPE = '${tender.SERVICE_TYPE}';
+            this.aRow.selected = '${tender.SERVICE_TYPE}';
+            this.manyRows.push(this.aRow);
+            //console.log(this.aRow);
+            this.aRow = {
+                PROJECT_ID:'',
+                PROJECT_TENDER_NAME:'',
+                QUOTES:'',
+                SERVICE_TYPE:'',
+                selected:'-1'
+            };
+            </c:forEach>
         },
         methods: {
             addNewRow: function () {
@@ -235,7 +260,13 @@
                 if(flag){
                     this.manyRows.push(this.aRow);
                     // 添加完newPerson对象后，重置newPerson对象
-                    this.aRow = {}
+                    this.aRow = {
+                        PROJECT_ID:'',
+                        PROJECT_TENDER_NAME:'',
+                        QUOTES:'',
+                        SERVICE_TYPE:'',
+                        selected:'-1'
+                    };
                 }
             },
             deleteThisRow: function (index) {
@@ -249,6 +280,19 @@
     //判断是否符合添加一行新数据的条件
     function validTbody() {
         return Form.check();
+    }
+
+    //组合form中的数据作为json格式字符串数组
+    function combineFormData() {
+        var formData = new Array;
+        $('#tbody tr.info-panel').each(function () {
+            var tdElem = $(this).children();
+            var jsonTemp = '{"PROJECT_ID":"'+tdElem.val()+'","SERVICE_TYPE":"'+tdElem.next().children().val()+'","PROJECT_TENDER_NAME":"'+tdElem.next().next().children().val()+'","QUOTES":"'+tdElem.next().next().next().children().val()+'"}';
+            formData.push(jsonTemp);
+        })
+        //console.log(formData);
+
+        return formData;
     }
 
 

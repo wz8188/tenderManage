@@ -1,6 +1,8 @@
 package com.fh.service.tm.tmprojecttenders;
 
 import java.util.List;
+import java.util.Map;
+
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
@@ -63,6 +65,20 @@ public interface TmProjectTendersManager{
      */
 	public List<PageData> findByProjectId(PageData pd) throws Exception;
 
-	
+
+    /**
+     * 批量插入数据
+     * @param mapList
+     * @throws Exception
+     */
+	public void saveAll(List<Map<String,Object>> mapList) throws Exception;
+
+
+    /**
+     * 根据项目id删除全部标段
+     * @param pd
+     * @throws Exception
+     */
+	public void deleteAllByProjectId(PageData pd) throws Exception;
 }
 

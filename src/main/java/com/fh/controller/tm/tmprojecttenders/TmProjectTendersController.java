@@ -3,14 +3,12 @@ package com.fh.controller.tm.tmprojecttenders;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import javax.annotation.Resource;
 
 import com.fh.service.tm.tmprojectservicetype.TmProjectServiceTypeManager;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -58,9 +56,26 @@ public class TmProjectTendersController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = new PageData();
         pd = this.getPageData();
-        pd.put("TMPROJECTTENDERS_ID", this.get32UUID());    //主键
-        pd.put("PROJECT_ID", pd.getString("PROJECT_ID"));    //归属项目id
-        //tmprojecttendersService.save(pd);
+        tmprojecttendersService.deleteAllByProjectId(pd);//根据项目id删除全部标段
+        if (pd.containsKey("ajaxData[]")){//若为空,则不执行下面的代码
+            ArrayList<String> ajaxDataArray = new ArrayList<>();
+            if (pd.get("ajaxData[]").getClass().isArray()){//判断是否是一行数据,因为一行数据时不是数组
+                ajaxDataArray = new ArrayList<String>(Arrays.asList((String[])pd.get("ajaxData[]")));
+            }else {//只有一行数据时也处理成数组
+                ajaxDataArray.add((String)pd.get("ajaxData[]"));
+            }
+            String[] arrayData = ajaxDataArray.toArray(new String[ajaxDataArray.size()]);//将ArrayList转换成String[]
+
+            JSONArray jsonArray = new JSONArray();
+            for (String str : arrayData) {
+                JSONObject jsonObject = JSONObject.fromObject(str);
+                jsonObject.put("TMPROJECTTENDERS_ID", this.get32UUID());//为每一个标段添加一个uuid
+                jsonObject.put("QUOTES", jsonObject.getString("QUOTES").isEmpty() ? null : jsonObject.getString("QUOTES"));//若报价分上限为空则置空
+                jsonArray.add(jsonObject);
+            }
+
+            tmprojecttendersService.saveAll((List)jsonArray);
+        }
         mv.addObject("msg", "success");
         mv.setViewName("save_result");
         return mv;
