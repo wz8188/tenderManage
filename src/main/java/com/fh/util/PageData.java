@@ -26,23 +26,27 @@ public class PageData extends HashMap implements Map{
 		Iterator entries = properties.entrySet().iterator(); 
 		Entry entry;
 		String name = "";  
-		String value = "";  
+//		String value = "";
 		while (entries.hasNext()) {
 			entry = (Entry) entries.next();
 			name = (String) entry.getKey(); 
-			Object valueObj = entry.getValue(); 
+			Object valueObj = entry.getValue();
+//			value = "";
 			if(null == valueObj){ 
-				value = ""; 
-			}else if(valueObj instanceof String[]){ 
-				String[] values = (String[])valueObj;
-				for(int i=0;i<values.length;i++){ 
-					 value = values[i] + ",";
-				}
-				value = value.substring(0, value.length()-1); 
-			}else{
-				value = valueObj.toString(); 
-			}
-			returnMap.put(name, value); 
+//				value = "";
+                returnMap.put(name, "");
+            }else if(valueObj instanceof String[]){
+//				String[] values = (String[])valueObj;
+//				for(int i=0;i<values.length;i++){
+//					 value += values[i] + ",";
+//				}
+//				value = value.substring(0, value.length()-1);
+                returnMap.put(name, (String[])valueObj);
+            }else{
+//				value = valueObj.toString();
+                returnMap.put(name, valueObj.toString());
+            }
+			//returnMap.put(name, value);
 		}
 		map = returnMap;
 	}
