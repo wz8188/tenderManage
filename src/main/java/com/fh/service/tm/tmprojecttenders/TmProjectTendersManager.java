@@ -80,5 +80,13 @@ public interface TmProjectTendersManager{
      * @throws Exception
      */
 	public void deleteAllByProjectId(PageData pd) throws Exception;
+
+
+    /**
+     * 先根据项目id删除全部标段及标段相关关联数据,然后将新增的标段插入
+     * @param pd
+     * @throws Exception
+     */
+	public void tranManageAll(PageData pd) throws Exception;
 }
 

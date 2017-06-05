@@ -19,7 +19,7 @@
 </head>
 <body class="no-skin">
 <!-- /section:basics/navbar.layout -->
-<div class="main-container" id="main-container">
+<div class="main-container" id="main-container" style="z-index: 1;">
     <!-- /section:basics/sidebar -->
     <div class="main-content">
         <div class="main-content-inner">
@@ -99,6 +99,7 @@
     <!-- /.main-content -->
 </div>
 <!-- /.main-container -->
+<div id="msgWarining" style="display: none">更新会 <span style="color: red">清空相关数据</span> ,确认操作么？</div>
 
 
 <!-- 页面底部js¨ -->
@@ -111,47 +112,12 @@
 <script type="text/javascript" src="plugins/vue/vue.js"></script>
 <!--验证表单-->
 <script type="text/javascript" src="plugins/validform/Validform_v5.3.2.js"></script>
+<!-- layer -->
+<script type="text/javascript" src="plugins/layer/layer.js"></script>
 <script type="text/javascript">
     $(top.hangge());
-    /*//保存
-    function save() {
-        if ($("#PROJECT_TENDER_NAME").val() == "") {
-            $("#PROJECT_TENDER_NAME").tips({
-                side: 3,
-                msg: '请输入项目标段名称',
-                bg: '#AE81FF',
-                time: 2
-            });
-            $("#PROJECT_TENDER_NAME").focus();
-            return false;
-        }
-        if ($("#QUOTES").val() == "") {
-            $("#QUOTES").tips({
-                side: 3,
-                msg: '请输入报价分上限',
-                bg: '#AE81FF',
-                time: 2
-            });
-            $("#QUOTES").focus();
-            return false;
-        }
-        if ($("#SERVICE_TYPE").val() == "") {
-            $("#SERVICE_TYPE").tips({
-                side: 3,
-                msg: '请输入标段服务类别',
-                bg: '#AE81FF',
-                time: 2
-            });
-            $("#SERVICE_TYPE").focus();
-            return false;
-        }
-        $("#Form").submit();
-        $("#zhongxin").hide();
-        $("#zhongxin2").show();
-    }*/
 
     $(function () {
-
 
     });
     //验证表单
@@ -181,10 +147,27 @@
         },
         showAllError: false,
         ajaxPost: false,
-        postonce: false,
+        postonce: true,
         callback: function (data) {
-            //validForm.resetStatus();
-            ajaxSubmitForm();
+            layer.open({
+                title:"提示",
+                content:$('#msgWarining').html(),
+                btn: ['确认', '取消'],
+                yes: function(index, layero){
+                    //按钮【确认】的回调
+                    ajaxSubmitForm();
+                },
+                btn2: function(index, layero){
+                    //按钮【取消】的回调
+                    Form.resetStatus();
+                    //return false 开启该代码可禁止点击该按钮关闭
+                },
+                cancel: function(){
+                    //右上角关闭回调
+                    Form.resetStatus();
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
             return false;
         }
     });
@@ -194,7 +177,6 @@
         var ajaxData =combineFormData();
         var url = $("#Form").attr('action');
         var method = $("#Form").attr('method');
-        console.log({"ajaxData":ajaxData,"PROJECT_ID":$('#PROJECT_ID').val()});
         $.ajax({
             type: method,
             url: url,
