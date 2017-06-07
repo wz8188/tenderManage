@@ -57,8 +57,18 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">单位分类:</td>
-								<td><input type="number" name="TENDER_UNIT_TYPE" id="TENDER_UNIT_TYPE" value="${pd.TENDER_UNIT_TYPE}" maxlength="32" placeholder="这里输入单位分类" title="单位分类" style="width:98%;"/></td>
-							</tr>
+								<td>
+									<select class="chosen-select form-control" name="TENDER_UNIT_TYPE" id="TENDER_UNIT_TYPE" value="${pd.TENDER_UNIT_TYPE} data-placeholder="请选择" style="vertical-align:top;width: 120px;">
+										<c:forEach items="${tmtenderunittypes}" var="tmtenderunittype" >
+											<option value="${tmtenderunittype.TMTENDERUNITTYPE_ID}"
+													<c:if test="${tmtenderunittype.TMTENDERUNITTYPE_ID== pd.TENDER_UNIT_TYPE}">
+														selected
+													</c:if>>${tmtenderunittype.TENDER_UNIT_TYPE_NAME}</option>
+										</c:forEach>
+									</select>
+								</td>
+								<%--<td><input type="number" name="TENDER_UNIT_TYPE" id="TENDER_UNIT_TYPE" value="${pd.TENDER_UNIT_TYPE}" maxlength="32" placeholder="这里输入单位分类" title="单位分类" style="width:98%;"/></td>
+				--%>			</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">开户银行:</td>
 								<td><input type="text" name="BANK" id="BANK" value="${pd.BANK}" maxlength="255" placeholder="这里输入开户银行" title="开户银行" style="width:98%;"/></td>
@@ -66,6 +76,30 @@
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">银行账户:</td>
 								<td><input type="text" name="BANK_ACCOUNT" id="BANK_ACCOUNT" value="${pd.BANK_ACCOUNT}" maxlength="255" placeholder="这里输入银行账户" title="银行账户" style="width:98%;"/></td>
+							</tr>
+
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">证书类型:</td>
+								<td>
+										<select class="chosen-select form-control" name="ECERT_TYPE" id="ECERT_TYPE"  value="${pd.ECERT_TYPE}"  data-placeholder="请选择" style="vertical-align:top;width: 120px;" onchange="change()">
+										<c:forEach items="${tmecerttypes}" var="tmecerttype" >
+											<option value="${tmecerttype.TMECERTTYPE_ID}"
+													<c:if test="${tmecerttype.TMECERTTYPE_ID==pd2.ECERT_TYPE}">
+												   selected
+													</c:if>
+											>${tmecerttype.ECERT_NAME}</option>
+										</c:forEach>
+									</select>
+								</td>
+								<%--<td><input type="number" name="TENDER_UNIT_TYPE" id="TENDER_UNIT_TYPE" value="${pd.TENDER_UNIT_TYPE}" maxlength="32" placeholder="这里输入单位分类" title="单位分类" style="width:98%;"/></td>
+				--%>			</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">证书名称:</td>
+								<td><input type="text" name="ECERT_NAME" id="ECERT_NAME" value="${pd2.ECERT_NAME}"   maxlength="32" placeholder="这里输入证书名称" title="证书名称" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">电子证书:</td>
+								<td><input type="file"  name="c:/"  /></td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
@@ -112,7 +146,7 @@
 				$("#TENDER_UNIT_NAME").focus();
 			return false;
 			}
-			if($("#TENDER_USER_NAME").val()==""){
+			/*if($("#TENDER_USER_NAME").val()==""){
 				$("#TENDER_USER_NAME").tips({
 					side:3,
 		            msg:'请输入投标人名称',
@@ -131,7 +165,7 @@
 		        });
 				$("#UNIT_LOCATION").focus();
 			return false;
-			}
+			}*/
 			if($("#CONTACT_PERSON").val()==""){
 				$("#CONTACT_PERSON").tips({
 					side:3,
@@ -152,7 +186,7 @@
 				$("#CONTACT_PHONE").focus();
 			return false;
 			}
-			if($("#CONTACT_EMAIL").val()==""){
+			/*if($("#CONTACT_EMAIL").val()==""){
 				$("#CONTACT_EMAIL").tips({
 					side:3,
 		            msg:'请输入电子邮箱',
@@ -161,7 +195,7 @@
 		        });
 				$("#CONTACT_EMAIL").focus();
 			return false;
-			}
+			}*/
 			if($("#TENDER_UNIT_TYPE").val()==""){
 				$("#TENDER_UNIT_TYPE").tips({
 					side:3,
@@ -196,7 +230,41 @@
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
 		}
-		
+
+        function editEcertType(Id){
+            top.jzts();
+            var diag = new top.Dialog();
+            diag.Drag=true;
+            diag.Title ="编辑";
+            diag.URL = '<%=basePath%>tmtenderecert/goEdit.do?TMTENDERECERT_ID='+Id;
+            diag.Width = 450;
+            diag.Height = 355;
+            diag.Modal = true;				//有无遮罩窗口
+            diag. ShowMaxButton = true;	//最大化按钮
+            diag.ShowMinButton = true;		//最小化按钮
+            diag.CancelEvent = function(){ //关闭事件
+                if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                    nextPage(${page.currentPage});
+                }
+                diag.close();
+            };
+            diag.show();
+        }
+
+        function messageReveal() {
+            var messageindex = document.Form.ECERT_TYPE.selectedIndex;
+//取得当前下拉菜单选定项目的序号
+            helpmsg = messages[messageindex];
+//根据序号取得当前选项的说明
+            document.Form.ECERT_NAME.value = helpmsg;
+//将说明写进文框
+        }
+        function change(){
+            var select1=document.getElementById("ECERT_TYPE");
+            var text=document.getElementById("ECERT_NAME");
+            text.value=select1.value;
+        }
+
 		$(function() {
 			//日期框
 			$('.date-picker').datepicker({autoclose: true,todayHighlight: true});

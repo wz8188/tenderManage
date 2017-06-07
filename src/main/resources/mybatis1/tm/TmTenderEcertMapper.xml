@@ -16,9 +16,10 @@
 		TMTENDERECERT_ID
 	</sql>
 	
-	<!-- 字段值 -->
+	<!-- 字段值  	#{TENDER_UNIT_ID},-->
 	<sql id="FieldValue">
-		#{TENDER_UNIT_ID},	
+
+		#{TMTENDERUNIT_ID},
 		#{ECERT_NAME},	
 		#{ECERT_TYPE},	
 		#{ECERT_PATH},	
@@ -36,12 +37,12 @@
 		)
 	</insert>
 	
-	<!-- 删除-->
+	<!-- 删除    -->
 	<delete id="delete" parameterType="pd">
 		delete from
 		<include refid="tableName"></include>
-		where 
-			TMTENDERECERT_ID = #{TMTENDERECERT_ID}
+		where
+		TMTENDERECERT_ID = #{TMTENDERECERT_ID}
 	</delete>
 	
 	<!-- 修改 -->
@@ -49,12 +50,12 @@
 		update
 		<include refid="tableName"></include>
 		set 
-			TENDER_UNIT_ID = #{TENDER_UNIT_ID},
+			TENDER_UNIT_ID = #{TMTENDERUNIT_ID},
 			ECERT_NAME = #{ECERT_NAME},
 			ECERT_TYPE = #{ECERT_TYPE},
 		TMTENDERECERT_ID = TMTENDERECERT_ID
-		where 
-		TMTENDERECERT_ID = #{TMTENDERECERT_ID}
+		where
+		TENDER_UNIT_ID = #{TMTENDERUNIT_ID}
 	</update>
 	
 	<!-- 通过ID获取数据 -->
@@ -63,8 +64,8 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
-		where 
-			TMTENDERECERT_ID = #{TMTENDERECERT_ID}
+		where
+		     TENDER_UNIT_ID = #{TMTENDERUNIT_ID}
 	</select>
 	
 	<!-- 列表 -->

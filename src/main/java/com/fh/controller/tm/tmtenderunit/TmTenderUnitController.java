@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+
+import com.fh.service.tm.tmtenderunittype.TmTenderUnitTypeManager;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -24,6 +26,8 @@ import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
 import com.fh.service.tm.tmtenderunit.TmTenderUnitManager;
+import com.fh.service.tm.tmecerttype.TmEcertTypeManager;
+import com.fh.service.tm.tmtenderecert.TmTenderEcertManager;
 
 /** 
  * 说明：投标单位管理
@@ -37,7 +41,15 @@ public class TmTenderUnitController extends BaseController {
 	String menuUrl = "tmtenderunit/list.do"; //菜单地址(权限用)
 	@Resource(name="tmtenderunitService")
 	private TmTenderUnitManager tmtenderunitService;
-	
+
+	@Resource(name="tmtenderunittypeService")
+	private TmTenderUnitTypeManager tmtenderunittypeService;
+	//注入，因为在goAdd()中访问了另外一个表单的service
+
+	@Resource(name="tmecerttypeService")
+	private TmEcertTypeManager tmecerttypeService;
+	@Resource(name="tmtenderecertService")
+	private TmTenderEcertManager tmtenderecertService;
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -49,9 +61,13 @@ public class TmTenderUnitController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("TMTENDERUNIT_ID", this.get32UUID());	//主键
+		/*String mainKey = this.get32UUID();*///主键
+	/*	String mainKey2 = this.get32UUID();*///主键2
+		pd.put("TMTENDERUNIT_ID",  this.get32UUID());
+		pd.put("TMTENDERECERT_ID",this.get32UUID());
 		pd.put("CREATE_TIME", Tools.date2Str(new Date()));	//创建时间
 		tmtenderunitService.save(pd);
+		tmtenderecertService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -67,7 +83,13 @@ public class TmTenderUnitController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
 		PageData pd = new PageData();
 		pd = this.getPageData();
+
+		PageData pd2 = new PageData();
+		pd2=tmtenderecertService.findById(pd);
+		tmtenderecertService.delete(pd2);
 		tmtenderunitService.delete(pd);
+
+
 		out.write("success");
 		out.close();
 	}
@@ -82,7 +104,10 @@ public class TmTenderUnitController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
-		pd = this.getPageData();
+		pd = this.getPageData();/*
+		PageData pd2 = new PageData();
+		pd2=tmtenderecertService.findById(pd);*/
+		tmtenderecertService.edit(pd);
 		tmtenderunitService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -125,6 +150,16 @@ public class TmTenderUnitController extends BaseController {
 		mv.setViewName("tm/tmtenderunit/tmtenderunit_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
+		List<PageData>	tmtenderunittypes = tmtenderunittypeService.listAll(null);
+		//后台获取数据保存在tmtenderunittypes 中
+		mv.addObject("tmtenderunittypes",tmtenderunittypes);
+		//将数据传给前端页面
+		List<PageData>	tmecerttypes = tmecerttypeService.listAll(null);
+		//配置表证书类型：包括证书id TMECERTTYPE_ID，证书类型名称 ECERT_NAME  和创建时间
+		mv.addObject("tmecerttypes",tmecerttypes);
+		List<PageData>	tmtenderecerts = tmtenderecertService.listAll(null);
+		//关联表电子证书：包括 证书id TMTENDERECERT_ID 投标单位 TENDER_UNIT_ID，证书类型ECERT_TYPE，证书名称 ECERT_NAME，图片url 和创建时间
+		mv.addObject("tmtenderecerts",tmtenderecerts);
 		return mv;
 	}	
 	
@@ -138,9 +173,23 @@ public class TmTenderUnitController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd = tmtenderunitService.findById(pd);	//根据ID读取
+		PageData pd2 = new PageData();
+		pd2 = this.getPageData();
+		pd2 = tmtenderecertService.findById(pd);	//根据ID读取
 		mv.setViewName("tm/tmtenderunit/tmtenderunit_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
+		mv.addObject("pd2", pd2);
+		List<PageData>	tmtenderunittypes = tmtenderunittypeService.listAll(null);
+		//后台获取数据保存在tmtenderunittypes 中
+		mv.addObject("tmtenderunittypes",tmtenderunittypes);
+		//将数据传给前端页面
+		List<PageData>	tmecerttypes = tmecerttypeService.listAll(null);
+		//配置表证书类型：包括证书id TMECERTTYPE_ID，证书类型名称 ECERT_NAME  和创建时间
+		mv.addObject("tmecerttypes",tmecerttypes);
+		List<PageData>	tmtenderecerts = tmtenderecertService.listAll(null);
+		//关联表电子证书：包括 证书id TMTENDERECERT_ID 投标单位 TENDER_UNIT_ID，证书类型ECERT_TYPE，证书名称 ECERT_NAME，图片url 和创建时间
+		mv.addObject("tmtenderecerts",tmtenderecerts);
 		return mv;
 	}	
 	

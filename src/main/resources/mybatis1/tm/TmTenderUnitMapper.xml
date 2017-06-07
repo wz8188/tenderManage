@@ -6,7 +6,12 @@
 	<sql id="tableName">
 		TM_TMTENDERUNIT
 	</sql>
-	
+
+	<!--表名 2-->
+	<sql id="tableName2">
+		TM_TMTENDERUNITTYPE
+	</sql>
+
 	<!-- 字段 -->
 	<sql id="Field">
 		TENDER_UNIT_NAME,	
@@ -20,6 +25,14 @@
 		BANK_ACCOUNT,	
 		CREATE_TIME,	
 		TMTENDERUNIT_ID
+	</sql>
+
+	<!-- 字段 2-->
+	<sql id="Field2">
+		TMTENDERUNITTYPE_ID/*,
+		TENDER_UNIT_TYPE_NAME,
+		ITEM_NUMBER,
+		CREATE_TIME*/
 	</sql>
 	
 	<!-- 字段值 -->
@@ -35,6 +48,15 @@
 		#{BANK_ACCOUNT},	
 		#{CREATE_TIME},	
 		#{TMTENDERUNIT_ID}
+	</sql>
+
+	<!-- 字段值2 -->
+	<sql id="FieldValue2">
+		#{TMTENDERUNITTYPE_ID},
+		#{TENDER_UNIT_TYPE_NAME},
+		#{ITEM_NUMBER},
+		#{CREATE_TIME}
+
 	</sql>
 	
 	<!-- 新增-->
@@ -110,6 +132,15 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+	</select>
+
+	<!-- 列表(全部)2    	TMTENDERUNITTYPE_ID-->
+	<select id="listAllUnitType" parameterType="pd" resultType="pd">
+		select
+
+		<include refid="Field2"></include>
+		from
+		<include refid="tableName2"></include>
 	</select>
 	
 	<!-- 批量删除 -->
