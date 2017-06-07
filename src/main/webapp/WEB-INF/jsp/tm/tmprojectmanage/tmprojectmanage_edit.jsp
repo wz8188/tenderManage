@@ -121,7 +121,7 @@
                                             <label for="SERVICE_FEE_CATEGORY_1" style="width: 40%">直收</label>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <%--<tr>
                                         <td style="width:100px;text-align: right;padding-top: 13px;">项目服务类别:</td>
                                         <td>
                                             <select name="PROJECT_SERVICE_TYPES" id="PROJECT_SERVICE_TYPES"
@@ -136,7 +136,7 @@
                                                 </c:forEach>
                                             </select>
                                         </td>
-                                    </tr>
+                                    </tr>--%>
                                     <tr>
                                         <td style="width:100px;text-align: right;padding-top: 13px;">招标类别:</td>
                                         <td>

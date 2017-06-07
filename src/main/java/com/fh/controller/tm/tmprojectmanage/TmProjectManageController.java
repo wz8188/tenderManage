@@ -152,7 +152,6 @@ public class TmProjectManageController extends BaseController {
         page.setPd(pd);
         List<PageData> varList = tmprojectmanageService.list(page);    //列出TmProjectManage列表
 
-        //TODO 更改为从项目下属标段进行查询
         //将项目服务类别更改为相应名称
         List<PageData> serviceTypeModel = tmprojectservicetypeService.listAll(null);
         HashMap<String, String> serviceTypeHash = new HashMap<>();
@@ -161,18 +160,17 @@ public class TmProjectManageController extends BaseController {
         }
 
         for (PageData project : varList) {
-            String[] serviceTypes = project.getString("PROJECT_SERVICE_TYPES").split(",");
-            String tempServiceNames = "";
-            for (int i = 0; i < serviceTypes.length; i++) {
-                tempServiceNames += serviceTypeHash.get(serviceTypes[i]).replaceAll("招标","");
-                if (i != serviceTypes.length - 1) {
-                    tempServiceNames += ",";
+            String tempServiceNames = "暂未设置标段";
+            if (project.get("PROJECT_SERVICE_TYPES") != null && !project.getString("PROJECT_SERVICE_TYPES").isEmpty()) {
+                tempServiceNames = "";
+                String[] serviceTypes = project.getString("PROJECT_SERVICE_TYPES").split(",");
+                for (int i = 0; i < serviceTypes.length; i++) {
+                    tempServiceNames += serviceTypeHash.get(serviceTypes[i]).replaceAll("招标", "") + ",";
                 }
+                tempServiceNames = tempServiceNames.substring(0, tempServiceNames.length() - 1);
             }
             project.put("PROJECT_SERVICE_TYPES", tempServiceNames);
         }
-
-        //TODO 更改结束
 
         mv.setViewName("tm/tmprojectmanage/tmprojectmanage_list");
         mv.addObject("varList", varList);

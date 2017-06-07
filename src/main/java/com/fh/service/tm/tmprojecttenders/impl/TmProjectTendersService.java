@@ -1,9 +1,6 @@
 package com.fh.service.tm.tmprojecttenders.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import javax.annotation.Resource;
 
 import com.fh.util.UuidUtil;
@@ -157,17 +154,26 @@ public class TmProjectTendersService implements TmProjectTendersManager {
             }
             String[] arrayData = ajaxDataArray.toArray(new String[ajaxDataArray.size()]);//将ArrayList转换成String[]
 
+            HashSet serviceTypesSet = new HashSet<>();//利用hashset去重服务类别
             JSONArray jsonArray = new JSONArray();
-            String uuid32 = UuidUtil.get32UUID();
             for (String str : arrayData) {
                 JSONObject jsonObject = JSONObject.fromObject(str);
-
-                jsonObject.put("TMPROJECTTENDERS_ID", uuid32);//为每一个标段添加一个uuid
+                serviceTypesSet.add(jsonObject.getString("SERVICE_TYPE"));//获取每个标段的服务类别并存入到set中
+                jsonObject.put("TMPROJECTTENDERS_ID", UuidUtil.get32UUID());//为每一个标段添加一个uuid
                 jsonObject.put("QUOTES", jsonObject.getString("QUOTES").isEmpty() ? null : jsonObject.getString("QUOTES"));//若报价分上限为空则置空
                 jsonArray.add(jsonObject);
             }
             //dao.save("TmProjectTendersMapper.saveAll", (List) jsonArray);
             this.saveAll((List) jsonArray);
+
+            Iterator iterator = serviceTypesSet.iterator();//获取迭代器
+            String serviceTypesStr = "";
+            while (iterator.hasNext()){
+                serviceTypesStr += iterator.next() + ",";
+            }
+            serviceTypesStr = serviceTypesStr.substring(0,serviceTypesStr.length()-1);
+            pd.put("PROJECT_SERVICE_TYPES",serviceTypesStr);
+            dao.update("TmProjectManageMapper.updateServiceTypesByTenders",pd);
         }
     }
 }

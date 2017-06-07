@@ -217,5 +217,12 @@
         </foreach>
     </delete>
 
+    <update id="updateServiceTypesByTenders" parameterType="pd">
+        UPDATE
+        <include refid="tableName"></include>
+        set PROJECT_SERVICE_TYPES = #{PROJECT_SERVICE_TYPES}
+        where TMPROJECTMANAGE_ID = #{PROJECT_ID}
+    </update>
+
     <!-- fh313596790qq(青苔) -->
 </mapper>
