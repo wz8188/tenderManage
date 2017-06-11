@@ -53,7 +53,7 @@
 		            <div id="uploader">
 		                <div class="queueList">
 		                    <div id="dndArea" class="placeholder">
-		                        <div id="filePicker"></div>
+		                        <div id="filePicker" uploadPath="/save"></div>
 		                        <p>或将照片拖到这里，单次最多可选300张</p>
 		                    </div>
 		                </div>
@@ -82,6 +82,10 @@
    	<script type="text/javascript" src="plugins/webuploader/upload.js"></script>
 	<script type="text/javascript">
 		$(top.hangge());
+
+		//更新了upload.js之后  其中div id必须为filePicker  uploadPath的值则是自己对应的controller中的方法注解
+        // 可以通过 uploader.returnResult.getResult() 获取到对用的controller返回的map对象数据 多次上传图片或上传多张图片则返回map数组.
+        //可以调用console.log(uploader.returnResult.getResult()) 进行查看数据格式
 	</script>
 </body>
 </html>	

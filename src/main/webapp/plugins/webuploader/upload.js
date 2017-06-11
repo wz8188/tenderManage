@@ -140,8 +140,14 @@
         }
 
         
-        var locat = (window.location+'').split('/'); 
-    	if('pictures'== locat[3]){locat =  locat[0]+'//'+locat[2];}else{locat =  locat[0]+'//'+locat[2]+'/'+locat[3];};
+        var locat = (window.location+'').split('/');
+
+        if ('pictures' == locat[3]) {
+            locat = locat[0] + '//' + locat[2]+ '/' + locat[3];
+        } else {
+            locat = locat.length == 5?locat[0] + '//' + locat[2] + '/' + locat[3]:locat[0] + '//' + locat[2] + '/' + locat[3]+ '/' + locat[4];
+        }
+        console.log(locat)
         uploader = WebUploader.create({
             pick: {
                 id: '#filePicker',
@@ -156,7 +162,7 @@
             chunked: false,
             chunkSize: 512 * 1024,
             //server: 'http://127.0.0.1:8080/pictures/save.do',
-            server: locat+'/pictures/save.do',
+            server: locat+$('#filePicker').attr("uploadPath")+'.do',
             //runtimeOrder: 'flash',
 
             accept: {
@@ -171,6 +177,17 @@
             fileSizeLimit: 200 * 1024 * 1024,    // 200 M
             fileSingleSizeLimit: 50 * 1024 * 1024    // 50 M
         });
+
+        //为uploader添加一些必要的属性
+        uploader.returnResult = {
+            result:[],
+            getResult:function () {
+                return this.result;
+            },
+            setResult:function (response) {
+                this.result = this.result.concat(response);
+            }
+        };
 
         // 拖拽时不接受 js, txt 文件。
         uploader.on( 'dndAccept', function( items ) {
@@ -540,6 +557,24 @@
 
             }
         });
+
+        uploader.on('uploadSuccess',function (file,response) {//当文件上传成功时触发。
+            //file {File}File对象  response {Object}服务端返回的数据'
+            //console.log("图片上传成功");
+            uploader.returnResult.setResult(response);
+        })
+
+        uploader.on('uploadError',function (file,reason) {//当文件上传出错时触发。
+            //@param {File} file File对象   @param {String} reason 出错的code
+            console.error("图片上传失败");
+            uploader.returnResult.setResult(reason);
+        })
+
+        /*uploader.on('uploadComplete',function (file) {//当文件上传成功时触发。
+            //{File} [file] File对象
+            /!*console.log("上传完成,无论成功还是失败都会执行此方法");
+            console.log(file);*!/
+        })*/
 
         uploader.onError = function( code ) {
         	if(code == 'F_DUPLICATE'){
